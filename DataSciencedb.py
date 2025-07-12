@@ -1,4 +1,6 @@
 import sqlite3 as sqlite
+import pandas as pd
+
 
 
 
@@ -7,8 +9,17 @@ conn=sqlite.connect('BancoDeDados.db')
 cursor=conn.cursor()
 
 
+def dataframe():
+    return  pd.read_sql_query('SELECT * FROM usuario',conn)
+
+
+
+
+
+
 def deletetable():
     cursor.execute(''' DELETE FROM usuario''')
+    cursor.execute(''' DELETE FROM sqlite_sequence WHERE name='usuario' ''')
     conn.commit()
 
 
@@ -84,6 +95,7 @@ while True:
             3-Excluir cliente
             4-Atualizar dados do cliente
             5-Deletar tabela
+            6-Exibir DataFrame
             0-Sair''')
     escolha=input("Opção: ")
 
@@ -114,5 +126,12 @@ while True:
             esc=input("Voltar para o menu ?: ")
             if esc=="nao" or esc=="n":
                 break
+        case "6":
+            df=dataframe()
+            print(df)
+            esc=input("Voltar para o menu ?: ")
+            if esc=="nao" or esc=="n":
+                break
         case "0":
+            print("Saindo do sistema...")
             break
